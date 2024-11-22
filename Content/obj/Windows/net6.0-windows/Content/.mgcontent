@@ -5,8 +5,10 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/Admin/Documents/box/monoplay/Content/pixel.png</File>
+    <File>C:/Users/Admin/Documents/box/monoplay/Content/Score.spritefont.spritefont</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

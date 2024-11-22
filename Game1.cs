@@ -11,13 +11,18 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
 
     Texture2D pixel;
+    SpriteFont fontScore;
 
     Rectangle paddleLeft = new Rectangle(10,200,20,100);
     Rectangle paddleRight = new Rectangle(770,200,20,100);
     Rectangle ball = new Rectangle(390,230,20,20);
 
-    int velocityX = 1;
-    int velocityY = 1;
+    float velocityX = 5;
+    float velocityY = 1;
+
+    int scoreLeftPlayer = 0;
+
+    int scoreRightPlayer = 0;
 
     public Game1()
     {
@@ -39,6 +44,7 @@ public class Game1 : Game
 
         // TODO: use this.Content to load your game content here
         pixel = Content.Load<Texture2D>(assetName:"pixel");
+        fontScore = Content.Load<SpriteFont>(assetName: "score.spritefont");
     }
 
     protected override void Update(GameTime gameTime)
@@ -47,27 +53,28 @@ public class Game1 : Game
             Exit();
 
         KeyboardState kState = Keyboard.GetState();
-        if(kState.IsKeyDown(key: Keys.W)){
-            paddleLeft.Y -= 20;
+        if(kState.IsKeyDown(key: Keys.W) && paddleLeft.Y > 0){
+            paddleLeft.Y-=10;
         }
 
-        if(kState.IsKeyDown(key: Keys.S)){
-            paddleLeft.Y +=20;
+        if(kState.IsKeyDown(key: Keys.S) && paddleLeft.Y + paddleLeft.Height < 480){
+            paddleLeft.Y+=10;
         }
 
-        if(kState.IsKeyDown(key: Keys.Up)){
-            paddleRight.Y -= 20;
+        if(kState.IsKeyDown(key: Keys.Up) && paddleRight.Y + paddleRight.Height > 480){
+            paddleRight.Y+=10;
         }
 
-        if(kState.IsKeyDown(key: Keys.Down)){
-            paddleRight.Y += 20;
+        if(kState.IsKeyDown(key: Keys.Down) && paddleRight.Y > 0){
+            paddleRight.Y-=10;
         }
 
-        ball.X += velocityX;
-        ball.Y += velocityY;
+        ball.X += (int)velocityX;
+        ball.Y += (int)velocityY;
         if(ball.Intersects(paddleRight)||
            ball.Intersects(value:paddleLeft)){
-            velocityX *= -1;
+            velocityX*= -1.1f;
+            velocityY*= 1.1f;
         }
 
         if(ball.Y <= 0 || ball.Y + ball.Height >= 400){
@@ -77,11 +84,13 @@ public class Game1 : Game
         if(ball.X <= 0 || ball.X + ball.Width >= 800){
             ball.X = 390;
             ball.Y = 230;
+            velocityX = 2;
+            velocityY = 2;
         }
 
         // TODO: Add your update logic here
 
-        base.Update(gameTime: gameTime);
+        base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
@@ -90,6 +99,16 @@ public class Game1 : Game
 
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
+        _spriteBatch.DrawString(spriteFont: fontScore,
+        text: scoreLeftPlayer.ToString(),
+        position: new Vector2(x:10,y:10),
+        color: Color.DarkOrange);
+
+        _spriteBatch.DrawString(spriteFont: fontScore,
+        text: scoreRightPlayer.ToString(),
+        position: new Microsoft.Xna.Framework.Vector2(x: 410,y: 10),
+        color: Color.DarkOrange);
+
         _spriteBatch.Draw(pixel, paddleLeft,Color.HotPink);
         _spriteBatch.Draw(pixel, paddleRight,Color.HotPink);
         _spriteBatch.Draw(pixel, ball,Color.Yellow);
