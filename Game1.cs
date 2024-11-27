@@ -45,6 +45,8 @@ public class Game1 : Game
         // TODO: use this.Content to load your game content here
         pixel = Content.Load<Texture2D>(assetName:"pixel");
         fontScore = Content.Load<SpriteFont>(assetName: "score.spritefont");
+
+        ball = new ball(t:pixel);
     }
 
     protected override void Update(GameTime gameTime)
@@ -61,31 +63,26 @@ public class Game1 : Game
             paddleLeft.Y+=10;
         }
 
-        if(kState.IsKeyDown(key: Keys.Up) && paddleRight.Y + paddleRight.Height > 480){
+        if(kState.IsKeyDown(key: Keys.Up) && paddleRight.Y + paddleRight.Height < 480){
             paddleRight.Y+=10;
         }
 
-        if(kState.IsKeyDown(key: Keys.Down) && paddleRight.Y > 0){
+        if(kState.IsKeyDown(key: Keys.Down) && paddleRight.Y + p> 0){
             paddleRight.Y-=10;
         }
 
-        ball.X += (int)velocityX;
-        ball.Y += (int)velocityY;
-        if(ball.Intersects(paddleRight)||
-           ball.Intersects(value:paddleLeft)){
-            velocityX*= -1.1f;
-            velocityY*= 1.1f;
-        }
-
-        if(ball.Y <= 0 || ball.Y + ball.Height >= 400){
-            velocityY *= -1;
-        }
+        ball.Update();
 
         if(ball.X <= 0 || ball.X + ball.Width >= 800){
+            ball.Reset();
+            scoreRightPlayer++;
+        }
+        else if(ball.X + ball.Width >= 800){
             ball.X = 390;
             ball.Y = 230;
             velocityX = 2;
-            velocityY = 2;
+            velocityX = 2;
+            scoreLeftPlayer++;
         }
 
         // TODO: Add your update logic here
@@ -111,7 +108,7 @@ public class Game1 : Game
 
         _spriteBatch.Draw(pixel, paddleLeft,Color.HotPink);
         _spriteBatch.Draw(pixel, paddleRight,Color.HotPink);
-        _spriteBatch.Draw(pixel, ball,Color.Yellow);
+        ball.Draw(_spriteBatch);
         _spriteBatch.End();
 
         base.Draw(gameTime);
