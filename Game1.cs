@@ -13,12 +13,12 @@ public class Game1 : Game
     Texture2D pixel;
     SpriteFont fontScore;
 
-    Rectangle paddleLeft = new Rectangle(10,200,20,100);
-    Rectangle paddleRight = new Rectangle(770,200,20,100);
-    Rectangle ball = new Rectangle(390,230,20,20);
 
-    float velocityX = 5;
-    float velocityY = 1;
+    Paddle paddleLeft;
+
+    Paddle paddleRight;
+
+    Ball ball;
 
     int scoreLeftPlayer = 0;
 
@@ -46,7 +46,7 @@ public class Game1 : Game
         pixel = Content.Load<Texture2D>(assetName:"pixel");
         fontScore = Content.Load<SpriteFont>(assetName: "score.spritefont");
 
-        ball = new ball(t:pixel);
+        ball = new Ball(t:pixel);
     }
 
     protected override void Update(GameTime gameTime)
@@ -71,17 +71,17 @@ public class Game1 : Game
             paddleRight.Y-=10;
         }
 
+
+
+
         ball.Update();
 
-        if(ball.X <= 0 || ball.X + ball.Width >= 800){
+        if(ball.X <= 0){
             ball.Reset();
             scoreRightPlayer++;
         }
-        else if(ball.X + ball.Width >= 800){
-            ball.X = 390;
-            ball.Y = 230;
-            velocityX = 2;
-            velocityX = 2;
+        else if(ball.Rectangle.X + ball.Rectangle.Width >= 800){
+            ball.Reset();
             scoreLeftPlayer++;
         }
 
@@ -96,19 +96,18 @@ public class Game1 : Game
 
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
-        _spriteBatch.DrawString(spriteFont: fontScore,
-        text: scoreLeftPlayer.ToString(),
-        position: new Vector2(x:10,y:10),
-        color: Color.DarkOrange);
+        _spriteBatch.DrawString(spriteFont: fontScore,scoreLeftPlayer.ToString(),
+        new Vector2(x:10,y:10),
+        Color.Green);
 
         _spriteBatch.DrawString(spriteFont: fontScore,
         text: scoreRightPlayer.ToString(),
         position: new Microsoft.Xna.Framework.Vector2(x: 410,y: 10),
         color: Color.DarkOrange);
 
-        _spriteBatch.Draw(pixel, paddleLeft,Color.HotPink);
-        _spriteBatch.Draw(pixel, paddleRight,Color.HotPink);
-        ball.Draw(_spriteBatch);
+        paddleLeft.Draw(_spriteBatch);
+        paddleRight.Draw(_spriteBatch);
+        ball.Draw(spriteBatch:_spriteBatch);
         _spriteBatch.End();
 
         base.Draw(gameTime);

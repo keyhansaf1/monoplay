@@ -3,16 +3,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace monoplay
 {
-    public class ball
+    public class Ball
     {
 
         private Texture2D texture;
+
         private Rectangle rectangle = new Rectangle(x:390,y:230,width:20,height:20);
         private float velocityX = 5;
+
         private float velocityY = 1;
 
         public Rectangle Rectangle{
-            get{return Rectangle;}
+            get{return rectangle;}
         }
 
         public Ball(Texture2D t){
@@ -25,14 +27,16 @@ namespace monoplay
             velocityX = 2;
             velocityY = 2;
         }
-        public void Update(){
-        Ball.X += (int)velocityX;
-        Ball.Y += (int)velocityY;
-        }
 
-        if(ball.Y <= 0 || ball.Y + ball.Height >= 480){
+        public void Update(){
+        rectangle.X += (int)velocityX;
+        rectangle.Y += (int)velocityY;
+
+            if(rectangle.Y <= 0 || rectangle.Y + rectangle.Height >=480){
             velocityY *= -1;
-        }
+            
+            }
+
         }
 
         public void Draw(SpriteBatch spriteBatch){

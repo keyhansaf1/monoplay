@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("monoplay")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c12b3a7af8631024527ae593096739ace18f2280")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0667b27eab2c387ecdec1484a609258a9d63ad69")]
 [assembly: System.Reflection.AssemblyProductAttribute("monoplay")]
 [assembly: System.Reflection.AssemblyTitleAttribute("monoplay")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
